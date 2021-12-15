@@ -1,4 +1,4 @@
---select 문 (select절, from절)
+--select 문 (select절, from절, where절)
 --명령어 순서대로 실행되는것이 아니다. ; 전으로 마우스 커서를 두고 ctrl+enter치면 해당 내용 실행
 select *
 from employees;
