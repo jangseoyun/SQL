@@ -23,7 +23,7 @@ select first_name,
 from employees
 where department_id = 100;
 
---spad(컬럼명,자리수,'채울문자'), rpad
+--lpad(컬럼명,자리수,'채울문자'), rpad
 -- 글자수를 맞추고 부족한 문자는 채울문자로 왼쪽에 채움 
 select first_name,
         lpad(first_name, 10, '*'),
