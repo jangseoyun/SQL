@@ -121,19 +121,18 @@ order by em.salary desc;
 select job_id,
         sum(salary)
 from employees
-group by job_id
-order by sum(salary) desc;
+group by job_id;
 
 --2. 업무명, 연봉 총합 조회
-select jo.job_id,
-        jo.job_title,
-        em.salary
-from employees em, jobs jo
-where em.job_id in (select job_id,
-                            sum(salary)
-                    from employees
-                    group by job_id
-                    order by sum(salary) desc);
+select jo.job_title,
+        nta.sums
+from employees em, jobs jo, (select job_id,
+                                    sum(salary) sums
+                              from employees
+                              group by job_id) nta
+where em.job_id = jo.job_id
+and em.salary = nta.sums
+order by em.salary desc;
 
 --#문제07.
 /*자신의 부서 평균 급여보다 연봉(salary)이 많은 직원의 직원번호(employee_id), 이름
@@ -162,4 +161,46 @@ and department_id in (select department_id
 --#문제08.
 /*직원 입사일이 11번째에서 15번째의 직원의 사번, 이름, 급여, 입사일을 입사일 순서로 출력
 하세요*/
+
+--1)
+select employee_id,
+        first_name,
+        salary,
+        hire_date
+from employees
+order by hire_date asc;
+
+--2)
+select rownum rnum,
+        tin.employee_id,
+        tin.first_name,
+        tin.salary,
+        tin.hire_date
+from (select employee_id,
+             first_name,
+             salary,
+             hire_date
+      from employees
+      order by hire_date asc)tin;
+
+--3)
+select tout.rnum,
+        tout.employee_id,
+        tout.first_name,
+        tout.salary,
+        tout.hire_date
+from (select rownum rnum,
+             tin.employee_id,
+             tin.first_name,
+             tin.salary,
+             tin.hire_date
+      from (select employee_id,
+                   first_name,
+                   salary,
+                   hire_date
+            from employees
+            order by hire_date asc)tin
+)tout
+where tout.rnum >= 11
+and tout.rnum <=15;
 
